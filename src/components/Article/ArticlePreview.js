@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../store";
 
 function ArticlePreview({ article }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [favorited, setFavorited] = useState();
   const [favoritesCount, setFavoritesCount] = useState();
   const { handleChangeFavorite } = useContext(UserContext);
@@ -15,10 +16,12 @@ function ArticlePreview({ article }) {
   }, [article]);
 
   const handleFavorite = async () => {
+    setIsLoading(true);
     await handleChangeFavorite(article.slug, article.favorited);
     if (favorited) setFavoritesCount(favoritesCount - 1);
     else setFavoritesCount(favoritesCount + 1);
     setFavorited(!favorited);
+    setIsLoading(false);
   };
 
   return (
@@ -32,6 +35,7 @@ function ArticlePreview({ article }) {
                 favorited ? "btn-primary" : "btn-outline-primary"
               }`}
               onClick={handleFavorite}
+              disabled={isLoading}
             >
               <i className="ion-heart"></i> {favoritesCount}
             </button>

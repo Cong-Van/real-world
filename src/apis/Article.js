@@ -1,21 +1,53 @@
 import request from "./request";
 
 const Article = {
-  // Get recent articles from users are followed
-  getFeed: (page) => request.get("/articles/feed", page),
-  // Get recent articles globally
-  getGolbal: (page) => request.get("/articles", page),
-  // Get an article
+  /**
+   * @param {Object: {offset, limit}} queryObj
+   * @returns recent articles from users are followed
+   */
+  getFeed: (queryObj) => request.get("/articles/feed", queryObj),
+
+  /**
+   * @param {Object: {offset, limit, tag, favorite ,...}} queryObj
+   * @returns recent articles globally
+   */
+  getGolbal: (queryObj) => request.get("/articles", queryObj),
+
+  /**
+   * @param {String} slug
+   * @returns an article
+   */
   getOne: (slug) => request.get(`/articles/${slug}`),
-  // Create an article
+
+  /**
+   * @param {Object: {title, body, description, tagList}} articleData
+   * @returns a new article
+   */
   create: (articleData) => request.post("/articles", articleData),
-  // Update an article
+
+  /**
+   * @param {String} slug
+   * @param {Object: {title, body, description, tagList}} articleData
+   * @returns an updated article
+   */
   update: (slug, articleData) => request.put(`/articles/${slug}`, articleData),
-  // Delete an article
+
+  /**
+   * @param {String} slug
+   * Delete an article
+   */
   delete: (slug) => request.delete(`/articles/${slug}`),
-  // Favorite an article
+
+  /**
+   * @param {String} slug
+   * @returns an updated article (User follow article)
+   */
   favorite: (slug) => request.post(`/articles/${slug}/favorite`),
-  // Unfavorite an artcle
+
+  /**
+   * @param {String} slug
+   * @returns an updated article (User unfollow article)
+   */
   unfavorite: (slug) => request.delete(`/articles/${slug}/favorite`),
 };
 

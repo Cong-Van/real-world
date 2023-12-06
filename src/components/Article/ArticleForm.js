@@ -15,11 +15,11 @@ function ArticleForm({ action, article }) {
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    setArticleData({ ...articleData, [e.target.name]: e.target.value });
+    setArticleData({ ...articleData, [e.target.name]: e.target.value || "" });
   };
 
   const handleAddTag = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && tagRef.current.value.trim() !== "") {
       setArticleData({
         ...articleData,
         tagList: [...articleData.tagList, tagRef.current.value],
@@ -36,6 +36,7 @@ function ArticleForm({ action, article }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(articleData);
     let data;
     if (action === "create")
       data = await articleAPI.create({ article: articleData });
@@ -64,7 +65,12 @@ function ArticleForm({ action, article }) {
   }, [article]);
 
   return (
-    <form>
+    <form
+      onSubmit={handleSubmit}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
+    >
       {errors && (
         <ul>
           {Object.values(errors).map((err) => (
@@ -127,11 +133,7 @@ function ArticleForm({ action, article }) {
             ))}
           </div>
         </fieldset>
-        <button
-          className="btn btn-lg pull-xs-right btn-primary"
-          type="button"
-          onClick={handleSubmit}
-        >
+        <button className="btn btn-lg pull-xs-right btn-primary" type="submit">
           Publish Article
         </button>
       </fieldset>

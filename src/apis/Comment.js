@@ -1,12 +1,25 @@
 import request from "./request";
 
 const Comment = {
-  // Get comments for an article
+  /**
+   * @param {String} slug
+   * @returns comments for an article
+   */
   getByArticleSlug: (slug) => request.get(`/articles/${slug}/comments`),
-  // Create a comment for an article
+
+  /**
+   * @param {String} articleSlug
+   * @param {Object: {body}} commentData
+   * @returns a new comment for an article
+   */
   create: (articleSlug, commentData) =>
     request.post(`/articles/${articleSlug}/comments`, commentData),
-  // Delete a comment for an article
+
+  /**
+   * @param {String} articleSlug
+   * @param {String} commentId
+   * Delete a comment for an article
+   */
   delete: (articleSlug, commentId) =>
     request.delete(`/articles/${articleSlug}/comments/${commentId}`),
 };

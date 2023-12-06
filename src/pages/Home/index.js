@@ -5,7 +5,7 @@ import Banner from "../../components/Home/Banner";
 import ArticleList from "../../components/Article/ArticleList";
 import TagList from "../../components/Tag/TagList";
 import { ArticleContext, TagContext, UserContext } from "../../store";
-import { articleAPI, tagAPI, userAPI } from "../../apis";
+import { articleAPI, tagAPI } from "../../apis";
 import { getAuthToken } from "../../util/auth";
 
 function HomePage() {
@@ -31,7 +31,7 @@ function HomePage() {
     else setFeedDisplay("your-feed");
 
     setTag("");
-  }, []);
+  }, [setTag]);
 
   useEffect(() => {
     async function loadArticles() {
