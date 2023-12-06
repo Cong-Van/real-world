@@ -14,8 +14,8 @@ function ArticlePreview({ article }) {
     setFavoritesCount(article.favoritesCount);
   }, [article]);
 
-  const handleFavorite = () => {
-    handleChangeFavorite(article.slug, article.favorited);
+  const handleFavorite = async () => {
+    await handleChangeFavorite(article.slug, article.favorited);
     if (favorited) setFavoritesCount(favoritesCount - 1);
     else setFavoritesCount(favoritesCount + 1);
     setFavorited(!favorited);
