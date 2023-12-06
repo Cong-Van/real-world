@@ -51,6 +51,7 @@ function SettingPage() {
 
   const handleLogout = () => {
     logout();
+    userAPI.setHeader("");
     navigate("/");
   };
 

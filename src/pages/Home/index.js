@@ -15,7 +15,7 @@ function HomePage() {
   const { authenticated } = useContext(UserContext);
 
   const [offset, setOffset] = useState(0);
-  const [feedDisplay, setFeedDisplay] = useState("your-feed");
+  const [feedDisplay, setFeedDisplay] = useState();
   const [articles, setArticles] = useState();
   const [tags, setTags] = useState();
 
@@ -28,7 +28,9 @@ function HomePage() {
   useEffect(() => {
     const token = getAuthToken();
     if (!token || token === "EXPIRED") setFeedDisplay("global-feed");
-    else userAPI.setHeader(token);
+    else setFeedDisplay("your-feed");
+
+    setTag("");
   }, []);
 
   useEffect(() => {
@@ -41,8 +43,9 @@ function HomePage() {
         data = await articleAPI.getGolbal({ offset, limit });
       if (feedDisplay === "tag-feed")
         data = await articleAPI.getGolbal({ offset, limit, tag });
-      if (!data.articles) return;
+      if (!data?.articles) return;
 
+      console.log(feedDisplay, data);
       setArticles(data.articles);
       setArticlesCount(data.articlesCount);
       setIsLoading(false);
